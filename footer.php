@@ -27,9 +27,10 @@
 </div>
 <!-- Main end -->
 <!--=============== scripts  ===============-->
-<script src="<?php echo ASSETS_URI ?>js/jquery.min.js"></script>
-<script src="<?php echo ASSETS_URI ?>js/plugins.js"></script>
-<script src="<?php echo ASSETS_URI ?>js/scripts.js"></script>
+<script src="<?php echo URI_ASSETS ?>js/jquery.min.js"></script>
+<script src="<?php echo URI_ASSETS ?>js/plugins.js"></script>
+<script src="<?php echo URI_ASSETS ?>js/scripts.js"></script>
+<?php wp_footer(); ?>
 </body>
 
 </html>
