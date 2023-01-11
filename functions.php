@@ -1,7 +1,7 @@
 <?php
 //const addresses definition
-define("URI_DIRECTORY", trailingslashit(get_template_directory_uri()));
-define("DIR_DIRECTORY", trailingslashit(get_template_directory()));
+define("URI_DIRECTORY", untrailingslashit(get_template_directory_uri()));
+define("DIR_DIRECTORY", untrailingslashit(get_template_directory()));
 const URI_ASSETS = URI_DIRECTORY . 'assets/';
 
 //Autoloader

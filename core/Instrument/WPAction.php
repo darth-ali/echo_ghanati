@@ -65,22 +65,21 @@ class WPAction
      * @param string $handle
      * @param string $location :: after /asset/css/...
      * @param array $deps
-     * @param string $version
-     * @param string $locationType :: 'directory' or 'url'
      * @param bool $addToAdmin
      * @param bool $addToApp
      */
-    public static function EnqueueStyle(string $handle, string $location, array $deps = [], string $version = '1.0.0', string $locationType = 'directory', bool $addToAdmin = true, bool $addToApp = false)
+    public static function EnqueueStyle(string $handle, string $location, array $deps = [], bool $addToAdmin = true, bool $addToApp = false)
     {
+        $fileSrc=URI_ASSETS . $location;
         if ($addToAdmin) {
 
-            add_action('admin_enqueue_scripts', function () use ($handle, $location, $deps, $version, $locationType) {
-                wp_enqueue_style($handle, (($locationType == 'directory') ? TEMPLATE_STYLESHEETS_URL : '') . $location, $deps, $version);
+            add_action('admin_enqueue_scripts', function () use ($handle, $fileSrc, $deps) {
+                wp_enqueue_style($handle, $fileSrc, $deps, filemtime($fileSrc));
             });
         }
         if ($addToApp) {
-            add_action('wp_enqueue_scripts', function () use ($handle, $location, $deps, $version, $locationType) {
-                wp_enqueue_style($handle, (($locationType == 'directory') ? TEMPLATE_STYLESHEETS_URL : '') . $location, $deps, $version);
+            add_action('wp_enqueue_scripts', function () use ($handle, $fileSrc, $deps ) {
+                wp_enqueue_style($handle,  $fileSrc, $deps, filemtime($fileSrc));
             });
 
         }
@@ -110,16 +109,17 @@ class WPAction
      * @param bool $addToAdmin
      * @param bool $addToApp
      */
-    public static function EnqueueScript(string $handle, string $location, array $deps = [], string $version = '1.0.0', bool $inFooter = true, string $locationType = 'directory', bool $addToAdmin = true, bool $addToApp = false)
+    public static function EnqueueScript(string $handle, string $location, array $deps = [], bool $inFooter = true, bool $addToAdmin = true, bool $addToApp = false)
     {
+        $fileSrc=URI_ASSETS.$location;
         if ($addToAdmin) {
-            add_action('admin_enqueue_scripts', function () use ($handle, $location, $deps, $version, $inFooter, $locationType) {
-                wp_enqueue_script($handle, (($locationType == 'directory') ? TEMPLATE_SCRIPTS_URL : '') . $location, $deps, $version, $inFooter);
+            add_action('admin_enqueue_scripts', function () use ($handle, $fileSrc, $deps, $inFooter) {
+                wp_enqueue_script($handle, $fileSrc , $deps, filemtime($fileSrc), $inFooter);
             });
         }
         if ($addToApp) {
-            add_action('wp_enqueue_scripts', function () use ($handle, $location, $deps, $version, $inFooter, $locationType) {
-                wp_enqueue_script($handle, (($locationType == 'directory') ? TEMPLATE_SCRIPTS_URL : '') . $location, $deps, $version, $inFooter);
+            add_action('wp_enqueue_scripts', function () use ($handle, $fileSrc, $deps, $inFooter) {
+                wp_enqueue_script($handle, $fileSrc , $deps, filemtime($fileSrc), $inFooter);
             });
         }
 
